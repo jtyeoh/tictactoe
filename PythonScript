@@ -1,0 +1,99 @@
+from IPython.display import clear_output
+clear_output()
+def userinput():
+    global valueinputno
+    
+    add = False
+    while add == False:
+        inputno = input("Please Enter a number from 1 to 9 :")
+        if inputno.isdigit() and int(inputno) in range(0,10) and len(inputno) == 1:
+            valueinputno = int(inputno)
+            add = True
+            
+        else:
+            
+            print("Please enter only numbers from 1 to 9 ! ") 
+            
+    return int(inputno)
+
+playt = 1
+listpop = list(range(1,10))
+mainlist = [' ',' ',' ',' ',' ',' ',' ',' ',' ']
+
+def turnend():
+    global playt
+    if playt == 1:
+        playt +=1
+    else:
+        playt -= 1
+
+def updatelist():
+    global mainlist,list1,list2,list3
+    list1 = mainlist[0:3]
+    list2 = mainlist[3:6]
+    list3 = mainlist[6:9]    
+
+def processing():
+    add = True 
+    while add:
+        print(f"It is player {playt}'s turn!")
+        userinput()
+        if valueinputno in listpop:
+            if playt == 1:
+                mainlist[valueinputno -1] = 'O'
+                updatelist()
+                listpop.remove(valueinputno)
+            elif playt == 2:
+                mainlist[valueinputno -1] = 'X'
+                updatelist()
+                listpop.remove(valueinputno)
+            add = False
+        else:
+            print("The position has already been chosen!! Choose another one")
+            print(f"It is player {playt}'s turn!")
+            continue
+
+def wincon():
+    if mainlist[0]  == mainlist[1]  == mainlist[2] != ' ':
+        return True
+    
+    elif mainlist[3]  == mainlist[4]  == mainlist[5]!= ' ':
+        return True
+    
+    elif mainlist[6]  == mainlist[7]  == mainlist[8]!= ' ':
+        return True 
+    
+    elif mainlist[0]  == mainlist[3]  == mainlist[6]!= ' ':
+        return True
+    
+    elif mainlist[1]  == mainlist[4]  == mainlist[7]!= ' ':
+        return True
+    
+    elif mainlist[2]  == mainlist[5]  == mainlist[8]!= ' ':
+        return True
+    
+    elif mainlist[0]  == mainlist[4]  == mainlist[8]!= ' ':
+        return True
+    
+    elif mainlist[2]  == mainlist[4]  == mainlist[6]!= ' ':
+        return True
+    
+    else:
+        return False
+
+    
+def showlist():
+    print(list1)
+    print(list2)
+    print(list3)
+
+while len(listpop) > 0:
+    processing()
+    showlist()
+    if wincon():
+        print(f"Player {playt} has won!")
+        break
+    turnend()
+    
+else:
+    print("The game is a tie")
